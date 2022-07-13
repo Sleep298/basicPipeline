@@ -1,4 +1,4 @@
-import { aws_codepipeline, pipelines } from "aws-cdk-lib";
+import { aws_codepipeline, pipelines, SecretValue } from "aws-cdk-lib";
 import { Construct } from "constructs";
 
 export interface IBasicPipeline {
@@ -13,10 +13,10 @@ export class BasicPipeline extends Construct {
     constructor(scope: Construct, id: string, props: IBasicPipeline) {
         super(scope, id);
     
-        this.basicPipeline = new pipelines.CodePipeline(this, 'Pipeline', {
-            pipelineName: 'MyPipeline',
+        this.basicPipeline = new pipelines.CodePipeline(this, props.pipelineName, {
+            pipelineName: props.pipelineName,
             synth: new pipelines.ShellStep('Synth', {
-                input: pipelines.CodePipelineSource.gitHub('Sleep298/basicPipeline', 'main'),
+                input: pipelines.CodePipelineSource.gitHub('Sleep298/basicPipeline', 'main', {authentication: SecretValue.secretsManager("GitHub-token")}),
                 commands: ['npm ci', 'npm run build', 'npx cdk synth']
             })     
         });
