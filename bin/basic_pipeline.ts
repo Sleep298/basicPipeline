@@ -6,4 +6,3 @@ import { BasicPipelineStack } from '../lib/basic_pipeline-stack';
 const app = new cdk.App();
 new BasicPipelineStack(app, 'BasicPipelineStack', {});
 
-app.synth()
