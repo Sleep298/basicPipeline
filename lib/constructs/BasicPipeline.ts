@@ -13,11 +13,12 @@ export class BasicPipeline extends Construct {
     constructor(scope: Construct, id: string, props: IBasicPipeline) {
         super(scope, id);
     
-        this.basicPipeline = new pipelines.CodePipeline(this, props.pipelineName, {
-            pipelineName: props.pipelineName,
+        this.basicPipeline  = new pipelines.CodePipeline(this, 'Pipeline', {
+            pipelineName: 'MyPipeline',
             synth: new pipelines.ShellStep('Synth', {
                 input: pipelines.CodePipelineSource.gitHub('Sleep298/basicPipeline', 'main', {authentication: SecretValue.secretsManager("GitHub-token")}),
-                commands: ['npm ci', 'npm run build', 'npx cdk synth']
+                commands: ['npm ci', 'npm run build', 'npx cdk synth'],
+                primaryOutputDirectory: '../../cdk.out'
             })     
         });
 
