@@ -1,6 +1,4 @@
 import { aws_codepipeline, pipelines } from "aws-cdk-lib";
-import { Pipeline } from "aws-cdk-lib/aws-codepipeline";
-import { CodePipelineSource, ShellStep, CodePipeline } from "aws-cdk-lib/pipelines";
 import { Construct } from "constructs";
 
 export interface IBasicPipeline {
