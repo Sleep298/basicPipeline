@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { SecretValue, Stack, StackProps } from 'aws-cdk-lib';
 import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
 import { Construct } from 'constructs';
 import { BasicPipeline } from "./BasicPipeline";
@@ -13,7 +13,7 @@ export class BasicPipelineStack extends Stack {
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'MyPipeline',
       synth: new ShellStep('Synth', {
-        input: CodePipelineSource.gitHub('Sleep298/basicPipeline', 'main'),
+        input: CodePipelineSource.gitHub('Sleep298/basicPipeline', 'main', {authentication: SecretValue.secretsManager("GitHub-token")}),
         commands: ['npm ci', 'npm run build', 'npx cdk synth']
       })
     });
