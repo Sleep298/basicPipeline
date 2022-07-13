@@ -18,7 +18,7 @@ export class BasicPipeline extends Construct {
             synth: new pipelines.ShellStep('Synth', {
                 input: pipelines.CodePipelineSource.gitHub('Sleep298/basicPipeline', 'main', {authentication: SecretValue.secretsManager("GitHub-token")}),
                 commands: ['npm ci', 'npm run build', 'npx cdk synth'],
-                primaryOutputDirectory: 'cdk.out'
+                primaryOutputDirectory: '../../cdk.out'
             })     
         });
 
