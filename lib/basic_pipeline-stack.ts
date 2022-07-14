@@ -1,10 +1,11 @@
 import { pipelines, SecretValue, Stack, StackProps } from 'aws-cdk-lib';
+import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { BasicPipeline } from './constructs/BasicPipeline';
+import { MyPipelineAppStage } from './my-pipeline-app-stage';
 
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
-export class BasicPipelineStack extends Stack {
+export class BasicPipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
@@ -17,7 +18,9 @@ export class BasicPipelineStack extends Stack {
         commands: ['npm ci', 'npm run build', 'npx cdk synth']
     })     
 });
- 
+
+    const applcationStage = basicPipeline.addStage(new MyPipelineAppStage(this, "test", {}));
+    applcationStage.addPost(new pipelines.ManualApprovalStep('approval'))
     
   }
 }
